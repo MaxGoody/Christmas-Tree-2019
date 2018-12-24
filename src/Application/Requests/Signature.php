@@ -52,14 +52,16 @@ final class Signature
      */
     public static function calculate(array $array): string
     {
-        ksort($array);
-        $string = '';
+        $parts = [];
+        ksort($array, SORT_STRING);
+
         foreach ($array as $key => $value) {
             if (is_array($value) === true) {
                 $value = self::calculate($value);
             }
-            $string .= "{$key}={$value}&";
+            $parts[] .= "{$key}={$value}";
         }
-        return md5(mb_substr($string, 0, -1));
+
+        return md5(join('&', $parts));
     }
 }
