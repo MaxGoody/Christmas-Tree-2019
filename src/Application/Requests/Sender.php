@@ -107,29 +107,4 @@ final class Sender
 
         return $response;
     }
-
-    /**
-     * Разобрать настйроки.
-     * @param array $settings
-     * @return array
-     */
-    private function parseSettings(array $settings): array
-    {
-        $newSettings = [];
-        $newSettings['method'] = $settings['method'] ?? 'POST';
-        $newSettings['secure'] = $settings['secure'] ?? true;
-        $newSettings['parameters'] = $settings['parameters'] ?? [];
-
-        if (isset($settings['controller']) === false) {
-            throw new InvalidArgumentException('Не указан контроллер (controller)!');
-        }
-        $newSettings['controller'] = trim($settings['controller'], '/');
-
-        if (isset($settings['action']) === false) {
-            throw new InvalidArgumentException('Не указано действие (action)!');
-        }
-        $newSettings['action'] = trim($settings['action'], '/');
-
-        return $newSettings;
-    }
 }
