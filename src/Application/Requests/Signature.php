@@ -7,7 +7,7 @@ use InvalidArgumentException;
  * Signature
  * @package Application\Requests
  * @author Maxim Alexeev
- * @version 1.0.0
+ * @version 1.0.1
  */
 final class Signature
 {

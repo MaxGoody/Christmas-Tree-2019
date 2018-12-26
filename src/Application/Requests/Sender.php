@@ -2,11 +2,12 @@
 namespace Application\Requests;
 
 use RuntimeException;
-use InvalidArgumentException;
 
 /**
  * Sender
  * @package Application\Requests
+ * @author Maxim Alexeev
+ * @version 1.0.0
  */
 final class Sender
 {

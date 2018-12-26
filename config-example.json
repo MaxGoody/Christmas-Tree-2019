@@ -1,0 +1,17 @@
+{
+  "id": 0,
+  "authKey": "",
+  "friends": [],
+  "mail": {
+    "in": true,
+    "out": false
+  },
+  "elf": {
+    "start": true,
+    "collect": true
+  },
+  "generators": true,
+  "quests": true,
+  "chests": true,
+  "wands": true
+}
