@@ -1,5 +1,4 @@
 <?php
-# Обработчик не пойманных исключений.
 set_exception_handler(function (Throwable $exception) {
     $data = [
         'class' => get_class($exception),
@@ -11,10 +10,10 @@ set_exception_handler(function (Throwable $exception) {
     ];
 
     echo <<<EOF
-    Не обработано исключение "{$data['class']}":
-        - Сообщение: "{$data['message']}";
-        - Код: {$data['code']};
-        - Файл: "{$data['file']}":{$data['line']};
-        - Трейс: {$data['trace']}.
+    Exception "{$data['class']}":
+        - Message: "{$data['message']}";
+        - Code: {$data['code']};
+        - File: "{$data['file']}":{$data['line']};
+        - Trace: {$data['trace']}.
     EOF;
 });

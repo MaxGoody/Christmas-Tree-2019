@@ -1,7 +1,7 @@
 {
   "id": 0,
   "authKey": "",
-  "friends": [],
+  "friends": [0],
   "mail": {
     "in": true,
     "out": false

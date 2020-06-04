@@ -1,17 +1,16 @@
 <?php
 require __DIR__.'/src/exceptions.php';
-require __DIR__.'/src/autoload.php';
+require __DIR__.'/vendor/autoload.php';
 
 use Application\Config;
 use Application\Requests\Sender;
 
-# Конфигурация
+# Load configuration...
 Config::loadFromFile(__DIR__.'/config.json');
 
-# Логика
 $sender = new Sender();
 
-# Авторизация
+# Authenticate...
 $response = $sender->sendUnsigned('canvas', 'show', [
     'api_id' => 6743634,
     'viewer_id' => Config::get('id'),
@@ -28,7 +27,7 @@ $parameters = [
     'clientPlatform' => 'js'
 ];
 
-# Инициализация
+# Initialize session...
 $playerInfo = $sender->sendSigned('game', 'init', $parameters, [
     'friendIds' => Config::get('friends'),
     'sessionData' => [
@@ -38,7 +37,7 @@ $playerInfo = $sender->sendSigned('game', 'init', $parameters, [
 
 $parameters['sessionKey'] = $playerInfo['user']['session'];
 
-# Принимаем почту.
+# Accept mail...
 if (Config::get('mail.in') === true) {
     $count = count($playerInfo['mail']['inbox']);
     if ($count !== 0) {
@@ -46,7 +45,7 @@ if (Config::get('mail.in') === true) {
     }
 }
 
-# Отправляем почту.
+# Send mail...
 if (Config::get('mail.out') === true) {
     $count = count($playerInfo['mail']['requests']);
     if ($count !== 0) {
@@ -54,7 +53,7 @@ if (Config::get('mail.out') === true) {
     }
 }
 
-# Собираем генераторы.
+# Collect generators...
 if (Config::get('generators') === true) {
     foreach ($playerInfo['user']['generators'] as $name => $data) {
         $sender->sendSigned('generator', 'exchange', $parameters, [
@@ -63,14 +62,14 @@ if (Config::get('generators') === true) {
     }
 }
 
-# Собираем прибыль с эльфов.
+# Collect elfs...
 if (Config::get('elf.collect') === true) {
     if (count($playerInfo['user']['elf']['collect']) !== 0) {
         $sender->sendSigned('Elf', 'UnloadFromCollect', $parameters);
     }
 }
 
-# Запускаем эльфов.
+# Start new elfs...
 if (Config::get('elf.start') === true) {
     foreach ($playerInfo['user']['elf']['data'] as $id => $data) {
         if ($data['type'] !== 2 && $data['time'] === 0) {
@@ -82,7 +81,7 @@ if (Config::get('elf.start') === true) {
 
 }
 
-# Собираем квесты.
+# Collect completed quests...
 if (Config::get('quests') === true) {
     foreach ($playerInfo['user']['quest'] as $id => $data) {
         if (isset($data['tasks']) === false) {
@@ -103,7 +102,7 @@ if (Config::get('quests') === true) {
     }
 }
 
-# Собираем сундучки.
+# Collect friends chests...
 if (Config::get('chests') === true) {
     foreach ($playerInfo['friendsList'] as $id => $data) {
         if (isset($data['hash']) === false) {
@@ -133,13 +132,14 @@ if (Config::get('chests') === true) {
             if ($exception->getCode() === 202) {
                 break;
             }
+
             throw $exception;
         }
 
     }
 }
 
-# Собираем палочки.
+# Collect friends magic wands.
 if (Config::get('wands') === true) {
     $count = count($playerInfo['friendsData']['energyGather']);
     $friends = [];

@@ -1,21 +1,17 @@
 <?php
+
 namespace Application\Requests;
 
 /**
- * Decoder
+ * TODO: This class may be used for getting encrypted XML file of build.
  * @package Application\Requests
- * @author MaxGoody
- * @version 1.0.0
  */
 final class Decoder
 {
-    /**
-     * Ключ шифрования XOR.
-     */
     public const ENCRYPTION_KEY = '~cq@337{SRRESHk$?fcJ~@x%1kRpd2WS';
 
     /**
-     * Разкодировать запакованную строку.
+     * Decode packed string.
      * @param string $string
      * @return string
      */
@@ -24,19 +20,19 @@ final class Decoder
         $inflate = inflate_init(ZLIB_ENCODING_DEFLATE);
 
         $string = base64_decode($string);
-        $string = self::XORString($string, self::ENCRYPTION_KEY);
+        $string = self::xorString($string, self::ENCRYPTION_KEY);
         $string = base64_decode($string);
 
         return inflate_add($inflate, $string);
     }
 
     /**
-     * XOR (де)шифрование строки.
-     * @param string $string Строка.
-     * @param string $key Ключ.
+     * Xor string.
+     * @param string $string
+     * @param string $key
      * @return string
      */
-    private static function XORString(string $string, string $key): string
+    private static function xorString(string $string, string $key): string
     {
         $stringLength = mb_strlen($string);
         $keyLength = mb_strlen($key);

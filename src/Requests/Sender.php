@@ -1,24 +1,16 @@
 <?php
+
 namespace Application\Requests;
 
 use RuntimeException;
 
 /**
- * Sender
  * @package Application\Requests
- * @author Maxim Alexeev
- * @version 1.0.0
  */
 final class Sender
 {
-    /**
-     * URL Сервера.
-     */
     public const SERVER_URL = 'https://elka2019-server-vk.ereality.org';
 
-    /**
-     * Стандартные заголовки.
-     */
     public const DEFAULT_HEADERS = [
         'Accept: */*',
         'Accept-Language: ru,en;q=0.9',
@@ -28,7 +20,7 @@ final class Sender
     ];
 
     /**
-     * Отправить подписанный запрос.
+     * Send signed request to server.
      * @param string $controller
      * @param string $action
      * @param array $parameters
@@ -76,7 +68,7 @@ final class Sender
     }
 
     /**
-     * Отправить запрос без подписи.
+     * Send request without signature.
      * @param string $controller
      * @param string $action
      * @param array|null $query
@@ -86,8 +78,7 @@ final class Sender
     {
         $curl = curl_init();
         curl_setopt_array($curl, [
-            CURLOPT_URL => self::SERVER_URL."/{$controller}/{$action}"
-                .($query === null ? '' : '?'.http_build_query($query)),
+            CURLOPT_URL => self::SERVER_URL."/{$controller}/{$action}" .($query === null ? '' : '?'.http_build_query($query)),
             CURLOPT_HTTPHEADER => self::DEFAULT_HEADERS,
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_SSL_VERIFYHOST => false,

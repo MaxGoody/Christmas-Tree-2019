@@ -1,27 +1,22 @@
 <?php
+
 namespace Application\Requests;
 
 use InvalidArgumentException;
 
 /**
- * Signature
  * @package Application\Requests
- * @author Maxim Alexeev
- * @version 1.0.1
  */
 final class Signature
 {
-    /**
-     * Параметры, необходимые для генерации подписи.
-     */
     public const REQUIRED_PARAMETERS = ['uid', 'suid', 'aid', 'authKey', 'sessionKey', 'clientPlatform'];
 
     /**
-     * Сгенерировать подпись для запроса.
-     * @param string $controller Контроллер.
-     * @param string $action Действие.
-     * @param array $parameters Параметры.
-     * @param array|null $requestParameters Параметры запроса.
+     * Generate signature to request.
+     * @param string $controller
+     * @param string $action
+     * @param array $parameters
+     * @param array|null $requestParameters
      * @return string
      */
     public static function generate(
@@ -37,7 +32,7 @@ final class Signature
 
         foreach (self::REQUIRED_PARAMETERS as $key) {
             if (isset($parameters[$key]) === false) {
-                throw new InvalidArgumentException("Не указан обязательный параметр '{$key}'!");
+                throw new InvalidArgumentException("Required parameter '{$key}' is not specified!");
             }
             $request[$key] = $parameters[$key];
         }
@@ -46,8 +41,8 @@ final class Signature
     }
 
     /**
-     * Вычислить MD5 хэш массива.
-     * @param array $array Массив.
+     * Calculate MD5 hash of array.
+     * @param array $array
      * @return string
      */
     public static function calculate(array $array): string
